@@ -29,7 +29,8 @@ if nargin<2
    return;
 end
 
-[noisy_speech, fs, nbits]= wavread( filename);
+% [noisy_speech, fs, nbits]= wavread( filename);
+[noisy_speech, fs] = audioread(filename);
 noisy_speech= noisy_speech'; % change to row vector
 
 if fs== 8000
@@ -155,7 +156,8 @@ for j= 1: nframes
     
 end
 
-wavwrite( enhanced_speech, fs, nbits, outfile);
+% wavwrite( enhanced_speech, fs, nbits, outfile);
+audiowrite(outfile, enhanced_speech, fs, 'BitsPerSample', 16);
 
 
     

@@ -40,7 +40,8 @@ end
 
 
 
-[in,fs]=wavread(infile);
+% [in,fs]=wavread(infile);
+[in,fs]=audioread(infile);
 
 
 frmelen=floor(FRMSZ*fs/1000);           % Frame size in samples 
@@ -240,7 +241,8 @@ for i=2:nframes
 end
 out=y1;
 
-wavwrite(out(1:length(x)),fs,16,outfile);
+% wavwrite(out(1:length(x)),fs,16,outfile);
+audiowrite(outfile,out(1:length(x)),fs,'BitsPerSample',16);
 
 
 
