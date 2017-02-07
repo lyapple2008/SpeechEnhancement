@@ -1,0 +1,3 @@
+[submodule "Speech-Denoising"]
+	path = Speech-Denoising
+	url = https://github.com/orchidas/Speech-Denoising

@@ -35,7 +35,8 @@ if SPU~=1 & SPU~=0
     error('ERROR: SPU needs to be either 1 or 0.');
 end
 
-[x, Srate, bits]= wavread( filename);	
+% [x, Srate, bits]= wavread( filename);	
+[x, Srate] = audioread(filename);
 
 
 % =============== Initialize variables ===============
@@ -108,16 +109,18 @@ for n=1:Nframes
     % ===end of vad===
 
     vk=ksi.*gammak./(1+ksi);
-    [j0,err]=besseli(0,vk/2);
-    [j1,err2]=besseli(1,vk/2);
-    if any(err) | any(err2)
-        fprintf('ERROR! Overflow in Bessel calculation in frame: %d \n',n);
-    else
+    j0 = besseli(0, vk/2);
+    j1 = besseli(1, vk/2);
+%     [j0,err]=besseli(0,vk/2);
+%     [j1,err2]=besseli(1,vk/2);
+%     if any(err) | any(err2)
+%         fprintf('ERROR! Overflow in Bessel calculation in frame: %d \n',n);
+%     else
         C=exp(-0.5*vk);
         A=((c*(vk.^0.5)).*C)./gammak;
         B=(1+vk).*j0+vk.*j1;
         hw=A.*B;
-    end
+%     end
 
 
     % --- estimate speech presence probability
@@ -146,5 +149,6 @@ end
 %========================================================================================
 
 
-wavwrite(xfinal,Srate,16,outfile);
+% wavwrite(xfinal,Srate,16,outfile);
+audiowrite(outfile, xfinal, Srate, 'BitsPerSample', 16);
 
